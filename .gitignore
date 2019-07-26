@@ -1,3 +1,4 @@
+*.swp
 roles/common/vars/main.yml
 production
 staging
