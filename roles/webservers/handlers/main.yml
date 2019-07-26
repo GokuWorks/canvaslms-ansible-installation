@@ -1,0 +1,6 @@
+# Re-start apache2 service
+  - name: Restart service apache2 in all cases
+    service:
+       name: apache2
+       state: restarted
+       enabled: yes

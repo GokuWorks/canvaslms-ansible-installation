@@ -1,0 +1,6 @@
+---
+- hosts: redisservers
+  roles:
+    - common
+    - redisservers
+

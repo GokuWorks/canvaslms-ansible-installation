@@ -1,0 +1,127 @@
+# on webservers we install apache, passenger, ruby and other Canvas dependencies
+
+# Update software on server first
+  - name: Update Packets
+    apt:
+      name: "*"
+      state: latest
+
+# Add Ruby Repo
+  - name: Add Ruby repo
+    apt_repository:
+      repo: ppa:brightbox/ruby-ng
+      update_cache: yes
+
+# Add Passenger Repo
+  - name: Add Passenger Repo
+    apt:
+      name: "dirmngr,gnupg"
+      state: latest
+  - name: Add an apt key
+    apt_key:
+        keyserver: keyserver.ubuntu.com
+        id: 561F9B9CAC40B2F7
+  - name: Install apt-transport-https ca-certificates
+    apt:
+      name: "apt-transport-https,ca-certificates"
+      state: latest
+  - name: Adding passenger repo
+    shell: sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+    args:
+       creates: /etc/apt/sources.list.d/passenger.list
+
+# Install CanvasLMS dependencies
+  - name: Install CanvasLMS dependencies
+    apt:
+      name: "python-psycopg2,git-core,software-properties-common,ruby2.4,ruby2.4-dev,zlib1g-dev,libxml2-dev,libsqlite3-dev,postgresql,libpq-dev,libxmlsec1-dev,curl,make,g++,python,python-lxml"
+      state: present  
+      update_cache: yes
+
+# Install Node.js
+  - name: Node.js installation Step1
+    shell: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+  - name: Node.js installation Step2
+    apt:
+      name: "nodejs"
+      state: latest
+      update_cache: yes
+
+# Install Yarn
+  - name: Yarn Installation Step1
+    shell: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  - name: Yarn Installation Step2
+    shell: echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  - name: Remove Yarn if already installed
+    apt:
+      name: yarn
+      state: absent
+  - name: Install Yarn version 1.10.1-1
+    apt:
+      name: "yarn=1.10.1-1"
+      state: present
+      update_cache: yes
+
+# Install Bundler
+  - name: Install Bundler
+    shell: gem install bundler --version 1.13.6
+
+# By default we run postfix SMTP server on web node
+  - name: Install Postfix SMTP Server
+    apt:
+     name: postfix
+     state: latest
+  - name: Fix smtpd for Canvas
+    replace:
+      path: /etc/postfix/main.cf
+      regexp: 'smtpd_use_tls=yes'
+      replace: 'smtpd_use_tls=no'
+  - name: Restart postfix
+    service:
+       name: postfix
+       state: restarted
+       enabled: yes
+
+# Install and Configure Apache web server
+  - name: Install Apache Web server
+    apt:
+      name: "passenger,libapache2-mod-passenger,apache2,libapache2-mod-xsendfile"
+      state: present  
+      update_cache: yes
+  - name: Add Certbot Repository
+    apt_repository:
+            repo: ppa:certbot/certbot
+            update_cache: yes
+  - name: Install certbot
+    apt:
+      name: certbot
+      state: latest
+# Enable module rewrite
+  - apache2_module:
+      state: present
+      name: "rewrite"
+  - apache2_module:
+      state: present
+      name: "passenger"
+  - apache2_module:
+      state: present
+      name: "ssl"
+# remove default vhost
+  - name: Remove 000-default.conf apache Vhost
+    file:
+      path: /etc/apache2/sites-enabled/000-default.conf
+      state: absent
+# create Apache config for Canvas
+  - name: Create Apache config for Canvas
+    template:
+        src: templates/canvas.conf.j2
+        dest: "/etc/apache2/sites-enabled/canvas.conf"
+        owner: root
+        group: root
+        mode: '0644'
+  - name: Tune Passenger
+    template:
+        src: templates/passenger.conf.j2
+        dest: "/etc/apache2/mods-enabled/passenger.conf"
+        owner: root
+        group: root
+        mode: '0644'

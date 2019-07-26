@@ -1,0 +1,9 @@
+<IfModule mod_passenger.c>
+  PassengerRoot /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
+  PassengerDefaultRuby /usr/bin/ruby
+  PassengerSpawnMethod smart
+  PassengerPoolIdleTime 1000
+  PassengerMaxPreloaderIdleTime 0
+  PassengerMaxRequests 5000
+  PassengerMinInstances 1
+</IfModule>

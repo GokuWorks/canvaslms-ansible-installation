@@ -1,0 +1,39 @@
+---
+# file: master.yml
+- import_playbook: webservers.yml
+- import_playbook: dbservers.yml
+- import_playbook: redis.yml
+- import_playbook: deploy_code.yml
+- import_playbook: compile.yml
+
+# restart all services after finishing tasks
+### Final restart
+- hosts: dbservers
+  remote_user: root
+  tasks:
+  - name: Restart postgresql
+    service:
+       name: postgresql
+       state: restarted
+
+# Re-start redis-server
+- hosts: redis-servers
+  remote_user: root
+  tasks:
+  - name: Restart redis-server
+    service:
+       name: redis-server
+       state: restarted
+
+# Re-start apache2 service
+- hosts: webservers
+  remote_user: root
+  tasks:
+  - name: Restart service apache2 in all cases
+    service:
+       name: apache2
+       state: restarted
+
+# Re-start Canvas Cron Jobs
+  - name: Start Canvas Jobs
+    shell: /etc/init.d/canvas_init restart

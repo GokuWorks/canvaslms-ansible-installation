@@ -1,0 +1,23 @@
+# Generate assets
+  - name: Generate Assets
+    become: true
+    become_user: canvas
+    shell: RAILS_ENV=production bundle exec rake canvas:compile_assets
+    args:
+      chdir: "{{ install_dir }}"
+    #  creates: "{{ install_dir }}/public/assets"
+    async: 1800
+    poll: 5
+    ignore_errors: yes
+
+# Load Database
+  - name: Load database
+    become: true
+    become_user: canvas
+    shell: CANVAS_LMS_ADMIN_EMAIL="{{ canvas_admin_email }}" CANVAS_LMS_ADMIN_PASSWORD="{{ canvas_admin_pass }}" CANVAS_LMS_ACCOUNT_NAME="{{ canvas_account_name }}" CANVAS_LMS_STATS_COLLECTION=opt_out RAILS_ENV=production bundle exec rake db:initial_setup
+    args:
+      chdir: "{{ install_dir }}"
+    async: 1800
+    poll: 5
+    ignore_errors: yes
+

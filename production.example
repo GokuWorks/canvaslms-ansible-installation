@@ -1,0 +1,9 @@
+[webservers]
+web_server_ip:22 ansible_python_interpreter="/usr/bin/env python3"
+
+[dbservers]
+db_server_ip:22 ansible_python_interpreter="/usr/bin/env python3"
+
+[redisservers]
+redis_server_ip:22 ansible_python_interpreter="/usr/bin/env python3"
+

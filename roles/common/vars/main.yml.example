@@ -1,0 +1,25 @@
+---
+sys_user: canvas
+sys_pass: MD5_HASHED_SYSTEM_PASS
+install_dir: /home/canvas/public_html
+db_host: localhost
+db_user: canvas
+db_name: canvas_production
+db_pass: DATABASE_USER_PASSWORD
+smtp_host: localhost
+smtp_port: 25
+smtp_user: canvas
+smtp_password: SMTP_PASSWORD
+smtp_auth: "plain"
+domain_name: "lms.example.com"
+outgoing_address: "canvas@lms.example.com"
+default_name: "Instructure Canvas"
+# security config
+encryption_key: 30_chars_long_encryption_key
+redis_host: 127.0.0.1
+redis_maxmem: 512m
+# db population
+canvas_admin_email: "admin@lms.example.com"
+canvas_admin_pass: STRONG_ADMIN_PASS
+canvas_account_name: "Organization Name"
+lms_stats_collection: opt_out

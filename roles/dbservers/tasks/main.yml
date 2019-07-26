@@ -1,0 +1,25 @@
+# Setup PostgreSQL server and create database and user for Canvas LMS
+  - name: Install CanvasLMS dependencies
+    apt:
+      name: "python3-psycopg2,postgresql-9.5,postgresql"
+      state: present
+      update_cache: yes
+  - name: Enable service postgresql
+    service:
+      name: postgresql
+      enabled: yes
+      state: started
+# create database user canvas
+  - name: Create database user canvas
+    become: true
+    become_user: postgres
+    postgresql_user:
+      name: "{{ db_user }}"
+      password: "{{ db_pass }}"
+# Create a new database with name "canvas_production"
+  - name: Create database canvas_production
+    become: true
+    become_user: postgres
+    postgresql_db:
+      name: "{{ db_name }}"
+      owner: "{{ db_user }}"
