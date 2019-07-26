@@ -9,7 +9,7 @@ To run the script:
 1) Clone repository
 $ git clone https://github.com/EugeneWHZ/canvaslms-ansible-installation.git
 
-2) Create and adjust inventory and variables files.
+2) Create and adjust inventory and variables files.<br />
 $ cp production.example production<br />
 $ cp staging.example staging<br />
 $ cp roles/common/vars/main.yml.example roles/common/vars/main.yml<br />
