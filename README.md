@@ -6,7 +6,7 @@ CPU: 2000MHz dual core or better<br />
 Disk space: 20GB or more according to your project requirements
 
 To run the script:
-1) Clone repository
+1) Clone repository<br />
 $ git clone https://github.com/EugeneWHZ/canvaslms-ansible-installation.git
 
 2) Create and adjust inventory and variables files.<br />
