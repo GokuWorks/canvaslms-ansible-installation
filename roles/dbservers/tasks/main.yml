@@ -1,7 +1,7 @@
 # Setup PostgreSQL server and create database and user for Canvas LMS
   - name: Install CanvasLMS dependencies
     apt:
-      name: "python3-psycopg2,postgresql-9.5,postgresql"
+      name: "python3-psycopg2,postgresql-14,postgresql"
       state: present
       update_cache: yes
   - name: Enable service postgresql

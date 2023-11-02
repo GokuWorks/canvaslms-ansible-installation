@@ -9,13 +9,13 @@
 # Add Ruby Repo
   - name: Add Ruby repo
     apt_repository:
-      repo: ppa:brightbox/ruby-ng
+      repo: ppa:instructure/ruby
       update_cache: yes
 
 # Add Passenger Repo
-  - name: Add Passenger Repo
+  - name: Install dirmngr, gnupg
     apt:
-      name: "dirmngr,gnupg"
+      name: "dirmngr,gnupg,curl"
       state: latest
   - name: Add an apt key
     apt_key:
@@ -25,45 +25,56 @@
     apt:
       name: "apt-transport-https,ca-certificates"
       state: latest
+  - name: Install passenger gpg-key
+    shell: sh -c 'curl https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key.txt | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/phusion.gpg >/dev/null'
+    args:
+      creates: /etc/apt/trusted.gpg.d/phusion.gpg
   - name: Adding passenger repo
-    shell: sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+    shell: sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger jammy main > /etc/apt/sources.list.d/passenger.list'
     args:
        creates: /etc/apt/sources.list.d/passenger.list
 
 # Install CanvasLMS dependencies
   - name: Install CanvasLMS dependencies
     apt:
-      name: "python-psycopg2,git-core,software-properties-common,ruby2.4,ruby2.4-dev,zlib1g-dev,libxml2-dev,libsqlite3-dev,postgresql,libpq-dev,libxmlsec1-dev,curl,make,g++,python,python-lxml"
+      name: "ruby3.1,ruby3.1-dev,zlib1g-dev,libxml2-dev,libsqlite3-dev,libpq-dev,libxmlsec1-dev,libyaml-dev,libidn11-dev,make,g++"
       state: present  
       update_cache: yes
 
 # Install Node.js
-  - name: Node.js installation Step1
-    shell: curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-  - name: Node.js installation Step2
+  - name: Download and import the Nodesource GPG key
+    shell: sh -c 'curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg'
+    args:
+      creates: /etc/apt/keyrings/nodesource.gpg
+
+  - name: Node.js installation - Create deb repository
+    shell: sh -c 'echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list'
+    args:
+       creates: /etc/apt/sources.list.d/nodesource.list
+
+  - name: Install Nodejs 16 via apt
     apt:
       name: "nodejs"
       state: latest
       update_cache: yes
 
+  - name: Install NPM
+    shell: sh -c 'sudo npm install -g npm@latest'
+
 # Install Yarn
-  - name: Yarn Installation Step1
-    shell: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  - name: Yarn Installation Step2
-    shell: echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
   - name: Remove Yarn if already installed
     apt:
       name: yarn
       state: absent
-  - name: Install Yarn version 1.10.1-1
+  - name: Install Yarn version 1.19.1-1
     apt:
-      name: "yarn=1.10.1-1"
+      name: "yarn=1.19.1-1"
       state: present
       update_cache: yes
 
 # Install Bundler
   - name: Install Bundler
-    shell: gem install bundler --version 1.13.6
+    shell: gem install bundler --version 2.4.19
 
 # By default we run postfix SMTP server on web node
   - name: Install Postfix SMTP Server
@@ -87,14 +98,12 @@
       name: "passenger,libapache2-mod-passenger,apache2,libapache2-mod-xsendfile"
       state: present  
       update_cache: yes
-  - name: Add Certbot Repository
-    apt_repository:
-            repo: ppa:certbot/certbot
-            update_cache: yes
+
   - name: Install certbot
     apt:
-      name: certbot
+      name: "certbot,python3-certbot-apache"
       state: latest
+
 # Enable module rewrite
   - apache2_module:
       state: present

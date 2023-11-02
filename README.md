@@ -1,4 +1,16 @@
-This is an Ansible playbook which installs Canvas LMS Open Source version on a server running Ubuntu 16.04 LTS.
+NOTE: Playbook is being upgraded from Ubuntu 16.04 LTS to Ubuntu 22.04 LTS.
+
+Next scripts are updated:
+	modified:   roles/common/vars/main.yml.example
+	modified:   roles/dbservers/tasks/main.yml
+	modified:   roles/redisservers/tasks/main.yml
+	modified:   roles/webservers/tasks/main.yml
+
+Scripts below still need review:
+	deploy_code.yml
+	compile.yml
+
+This is an Ansible playbook which installs Canvas LMS Open Source version on a server running Ubuntu 22.04 LTS.
 
 Minimal hardware requirements for installation:<br />
 RAM: 8GB or more<br />

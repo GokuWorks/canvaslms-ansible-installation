@@ -1,8 +1,4 @@
 # Install and Configure Redis server
-  - name: Add Redis repo
-    apt_repository:
-      repo: ppa:chris-lea/redis-server
-      update_cache: yes
   - name: Install redis-server
     apt:
       name: "redis-server"
