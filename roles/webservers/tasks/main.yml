@@ -52,7 +52,7 @@
     args:
        creates: /etc/apt/sources.list.d/nodesource.list
 
-  - name: Install Nodejs 16 via apt
+  - name: Install Nodejs 18 via apt
     apt:
       name: "nodejs"
       state: latest
@@ -66,15 +66,13 @@
     apt:
       name: yarn
       state: absent
-  - name: Install Yarn version 1.19.1-1
-    apt:
-      name: "yarn=1.19.1-1"
-      state: present
-      update_cache: yes
 
+  - name: Install Yarn
+    shell: npm -g install yarn
+    
 # Install Bundler
   - name: Install Bundler
-    shell: gem install bundler --version 2.4.19
+    shell: gem install bundler
 
 # By default we run postfix SMTP server on web node
   - name: Install Postfix SMTP Server

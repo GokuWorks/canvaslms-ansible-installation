@@ -1,3 +1,5 @@
 production:
-  servers:
-    - redis://{{ redis_host }}
+  url: redis://{{ redis_host }}
+
+test:
+  url: redis://{{ redis_host }}/1
