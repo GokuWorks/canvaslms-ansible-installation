@@ -120,8 +120,8 @@
 # create Apache config for Canvas
   - name: Create Apache config for Canvas
     template:
-        src: templates/canvas.conf.j2
-        dest: "/etc/apache2/sites-enabled/canvas.conf"
+        src: templates/apache-vhost.conf.j2
+        dest: "/etc/apache2/sites-enabled/{{ domain_name }}.conf"
         owner: root
         group: root
         mode: '0644'

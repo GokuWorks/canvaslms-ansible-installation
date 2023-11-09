@@ -14,6 +14,7 @@
   XSendFile On
   XSendFilePath {{ install_dir }}
   PassengerStartTimeout 300
+  PassengerPreloadBundler on
   <Directory "{{ install_dir }}/public">
     Options All
     AllowOverride All
@@ -37,6 +38,7 @@
   XSendFile On
   XSendFilePath {{ install_dir }}
   PassengerStartTimeout 300
+  PassengerPreloadBundler on
   <Directory "{{ install_dir }}/public">
     Options All
     AllowOverride All
