@@ -1,5 +1,5 @@
-This Ansible playbook installs open source Canvas LMS on a server running Ubuntu 22.04 LTS 64bit.
-<br />
+This Ansible playbook installs open source Canvas LMS on a server running Ubuntu 22.04 LTS 64bit.<br />
+
 Minimal hardware requirements:<br />
 RAM: 8GB or more<br />
 CPU: 2000MHz dual core or better<br />
