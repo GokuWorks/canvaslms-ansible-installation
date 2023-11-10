@@ -1,14 +1,21 @@
 ---
+# Defines a Linux system user to be used for Canvas 
 sys_user: canvas
-# Generate md5 hash using command "echo -n 'CHANGE_ME' | md5sum" and replace MD5_HASHED_SYSTEM_PASS with generated MD5 hash
+# Generate md5 hash using command: mkpasswd --method=sha-512
+# replace MD5_HASHED_SYSTEM_PASS with generated MD5 hash
 sys_pass: MD5_HASHED_SYSTEM_PASS
-# Change install_dir if you want to install LMS into different location
+
+# Change install_dir if you want to install Canvas LMS into different location
 install_dir: /home/canvas/public_html
+
+# Database server details (Why don't we use the database server defined in the inventory???)
 db_host: localhost
 db_user: canvas
 db_name: canvas_production
 # Generate a random string and replace DATABASE_USER_PASSWORD with it
 db_pass: DATABASE_USER_PASSWORD
+
+# SMTP details
 smtp_host: localhost
 smtp_port: 25
 smtp_user: canvas
@@ -18,12 +25,16 @@ smtp_auth: "plain"
 domain_name: "lms.example.com"
 outgoing_address: "canvas@lms.example.com"
 default_name: "Instructure Canvas"
+
 # security config
 # Generate 30_chars_long_encryption_key and replace 30_chars_long_encryption_key with it
 encryption_key: 30_chars_long_encryption_key
+
+# Redis server details (Why don't we use Redis host defined in the inventory???)
 redis_host: 127.0.0.1
 redis_maxmem: 512m
-# db population
+
+# Variables used during database population (RAILS_ENV=production bundle exec rake db:initial_setup)
 # Replace admin@lms.example.com with your email address
 canvas_admin_email: "admin@lms.example.com"
 # Generate a random string and replace STRONG_ADMIN_PASS with it
