@@ -7,15 +7,19 @@
       state: latest
 
 # Add Ruby Repo
+  - name: Install gnupg
+    apt:
+      name: "gnupg"
+      state: latest
   - name: Add Ruby repo
     apt_repository:
       repo: ppa:instructure/ruby
       update_cache: yes
 
 # Add Passenger Repo
-  - name: Install dirmngr, gnupg
+  - name: Install dirmngr
     apt:
-      name: "dirmngr,gnupg,curl"
+      name: "dirmngr,curl"
       state: latest
   - name: Add an apt key
     apt_key:
