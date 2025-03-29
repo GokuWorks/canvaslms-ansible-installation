@@ -14,6 +14,11 @@
       path: "{{ install_dir }}"
       state: directory
 
+# Install git with apt
+  - name: Install git
+    apt:
+      name: "git"
+      state: latest
 
 # Deploy code from git
   - name: Deploy code from git
