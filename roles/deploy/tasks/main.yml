@@ -7,6 +7,13 @@
      comment: Canvas LMS
      password: "{{ sys_pass }}"
      state: present
+  
+# Create dir for canvas install
+  - name: Create install dir
+    ansible.builtin.file:
+      path: "{{ install_dir }}"
+      state: directory
+
 
 # Deploy code from git
   - name: Deploy code from git
