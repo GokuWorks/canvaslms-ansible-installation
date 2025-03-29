@@ -13,6 +13,7 @@
     ansible.builtin.file:
       path: "{{ install_dir }}"
       state: directory
+      mode: '755'
 
 # Install git with apt
   - name: Install git
