@@ -41,7 +41,7 @@
 # Install CanvasLMS dependencies
   - name: Install CanvasLMS dependencies
     apt:
-      name: "ruby3.2,ruby3.2-dev,zlib1g-dev,libxml2-dev,libsqlite3-dev,libpq-dev,libxmlsec1-dev,libyaml-dev,libidn11-dev,make,g++"
+      name: "ruby3.3,ruby3.3-dev,zlib1g-dev,libxml2-dev,libsqlite3-dev,libpq-dev,libxmlsec1-dev,libyaml-dev,libidn11-dev,make,g++"
       state: present  
       update_cache: yes
 
