@@ -2,3 +2,4 @@
 roles/common/vars/main.yml
 production
 staging
+ssh_key
