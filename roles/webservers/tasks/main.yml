@@ -52,11 +52,11 @@
       creates: /etc/apt/keyrings/nodesource.gpg
 
   - name: Node.js installation - Create deb repository
-    shell: sh -c 'echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list'
+    shell: sh -c 'echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list'
     args:
        creates: /etc/apt/sources.list.d/nodesource.list
 
-  - name: Install Nodejs 18 via apt
+  - name: Install Nodejs 22 via apt
     apt:
       name: "nodejs"
       state: latest
